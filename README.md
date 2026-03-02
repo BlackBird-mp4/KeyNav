@@ -2,22 +2,22 @@
 
 A Firefox extension for keyboard-based web navigation using letter hints. Click any link, button, or interactive element without touching your mouse.
 
-![KeyClick Demo](https://via.placeholder.com/600x300?text=KeyClick+Demo)
-
 ## Features
 
-- **Letter-based hints**: Press `Alt+J` to show letter hints on all clickable elements
+- **Letter-based hints**: Press your trigger key (default `/`) to show letter hints on all clickable elements
 - **Fast navigation**: Type one or two letters to click any link
-- **Fully customizable**: Change colors, font size, characters, and more
-- **New tab support**: Press `Alt+K` to open links in a new tab
+- **Fully customizable**: Change trigger key, colors, font size, hint characters, and more
+- **New tab support**: Hold `Ctrl` while typing a hint to open in a new tab
 - **Lightweight**: No bloat, just the essentials
 
 ## Installation
 
 ### From Firefox Add-ons (Recommended)
-*Coming soon*
+
+*Coming soon - will submit to Firefox Add-ons store*
 
 ### Manual Installation (Development)
+
 1. Clone this repository
 2. Open Firefox and navigate to `about:debugging`
 3. Click "This Firefox" in the sidebar
@@ -27,17 +27,18 @@ A Firefox extension for keyboard-based web navigation using letter hints. Click 
 ## Usage
 
 | Shortcut | Action |
-|----------|--------|
-| `Alt + J` | Show hints (click in current tab) |
-| `Alt + K` | Show hints (open in new tab) |
+| -------- | ------ |
+| `/` (customizable) | Show link hints |
+| `Ctrl` + hint | Open in new tab (hold Ctrl while typing) |
 | `Escape` | Cancel / hide hints |
 | `Backspace` | Delete last typed character |
 
 ### How it works
-1. Press `Alt+J` to activate hints
+
+1. Press `/` (or your custom key) to activate hints
 2. Letter labels appear next to all clickable elements
 3. Type the letters to click that element
-4. The hint disappears and the action is performed
+4. Hold `Ctrl` while typing to open links in a new tab
 
 ## Customization
 
@@ -45,6 +46,7 @@ Click the extension icon → Options, or go to `about:addons` and find KeyClick 
 
 ### Available Options
 
+- **Activation Key**: Set your preferred trigger key (default: `/`)
 - **Hint Characters**: Which letters to use (default: `asdfghjkl` - home row for easy typing)
 - **Colors**: Background, text, and border colors with preset themes
 - **Appearance**: Font size, border radius, opacity, padding
@@ -58,14 +60,6 @@ Click the extension icon → Options, or go to `about:addons` and find KeyClick 
 - Orange  
 - Purple
 - Dark
-
-## Keyboard Shortcuts
-
-You can customize the keyboard shortcuts in Firefox:
-1. Go to `about:addons`
-2. Click the gear icon (⚙️)
-3. Select "Manage Extension Shortcuts"
-4. Find KeyClick and set your preferred shortcuts
 
 ## Development
 

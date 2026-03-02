@@ -9,6 +9,7 @@
   // Default settings
   const DEFAULT_SETTINGS = {
     hintChars: 'asdfghjkl',
+    activationKey: '/',
     backgroundColor: '#ffeb3b',
     textColor: '#000000',
     borderColor: '#f9a825',
@@ -273,10 +274,19 @@
   function updateInputIndicator() {
     if (!inputIndicator) return;
     
-    const mode = openInNewTab ? '(new tab) ' : '';
+    const mode = openInNewTab ? '[Ctrl: new tab] ' : '';
     const typed = settings.uppercase ? currentInput.toUpperCase() : currentInput;
     inputIndicator.textContent = mode + (typed || 'Type hint...');
     inputIndicator.style.opacity = currentInput ? '1' : '0.8';
+    
+    // Visual feedback for Ctrl held
+    if (openInNewTab) {
+      inputIndicator.style.borderColor = '#2196f3';
+      inputIndicator.style.boxShadow = '0 4px 12px rgba(33, 150, 243, 0.4)';
+    } else {
+      inputIndicator.style.borderColor = settings.borderColor;
+      inputIndicator.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+    }
   }
 
   function hideInputIndicator() {
@@ -289,6 +299,10 @@
   // Handle keyboard input
   function handleKeyDown(e) {
     if (!hintsActive) return;
+
+    // Track Ctrl state for new tab
+    openInNewTab = e.ctrlKey;
+    updateInputIndicator();
 
     // Escape to cancel
     if (e.key === 'Escape') {
@@ -415,6 +429,27 @@
       showHints(false);
     }
   });
+
+  // Global keyboard listener for activation key
+  document.addEventListener('keydown', (e) => {
+    // Don't activate if typing in an input field
+    const activeEl = document.activeElement;
+    const isTyping = activeEl && (
+      activeEl.tagName === 'INPUT' ||
+      activeEl.tagName === 'TEXTAREA' ||
+      activeEl.tagName === 'SELECT' ||
+      activeEl.isContentEditable
+    );
+
+    if (isTyping) return;
+
+    // Check for activation key
+    if (!hintsActive && e.key === settings.activationKey) {
+      e.preventDefault();
+      e.stopPropagation();
+      showHints(false);
+    }
+  }, true);
 
   // Initial settings load
   loadSettings();

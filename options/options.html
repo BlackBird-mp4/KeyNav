@@ -47,6 +47,20 @@
         </div>
       </section>
 
+      <!-- Activation Key -->
+      <section class="card">
+        <h2>Activation Key</h2>
+        <p class="description">Press this key to show link hints. Hold <kbd>Ctrl</kbd> while selecting to open in new tab.</p>
+        <div class="form-group">
+          <label for="activationKey">Trigger Key</label>
+          <div class="key-capture-wrapper">
+            <input type="text" id="activationKey" class="key-input" readonly placeholder="Press a key...">
+            <button type="button" id="captureKeyBtn" class="btn btn-small">Change</button>
+          </div>
+          <span class="hint-text">Click "Change" then press your desired key (e.g., /, ., ;)</span>
+        </div>
+      </section>
+
       <!-- Colors -->
       <section class="card">
         <h2>Colors</h2>
@@ -145,15 +159,14 @@
       <!-- Keyboard Shortcuts Info -->
       <section class="card">
         <h2>Keyboard Shortcuts</h2>
-        <p class="description">These shortcuts can be customized in Firefox's Add-ons Manager (about:addons → ⚙️ → Manage Extension Shortcuts)</p>
         <div class="shortcuts-list">
           <div class="shortcut-item">
-            <kbd>Alt</kbd> + <kbd>J</kbd>
-            <span>Show hints (click in current tab)</span>
+            <kbd id="activationKeyDisplay">/</kbd>
+            <span>Show link hints</span>
           </div>
           <div class="shortcut-item">
-            <kbd>Alt</kbd> + <kbd>K</kbd>
-            <span>Show hints (open in new tab)</span>
+            <kbd>Ctrl</kbd> + <span class="hint-key">hint</span>
+            <span>Open in new tab (hold Ctrl while typing hint)</span>
           </div>
           <div class="shortcut-item">
             <kbd>Esc</kbd>
@@ -164,6 +177,7 @@
             <span>Delete last typed character</span>
           </div>
         </div>
+        <p class="description" style="margin-top: 12px; margin-bottom: 0;">Tip: You can also click the toolbar icon or use Firefox's shortcuts (Alt+J/K) via about:addons → ⚙️ → Manage Extension Shortcuts</p>
       </section>
 
       <!-- Actions -->

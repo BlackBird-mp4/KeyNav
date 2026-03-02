@@ -8,6 +8,7 @@
   // Default settings
   const DEFAULT_SETTINGS = {
     hintChars: 'asdfghjkl',
+    activationKey: '/',
     backgroundColor: '#ffeb3b',
     textColor: '#000000',
     borderColor: '#f9a825',
@@ -29,10 +30,16 @@
     dark: { backgroundColor: '#424242', textColor: '#ffffff', borderColor: '#212121' }
   };
 
+  // State for key capture
+  let isCapturingKey = false;
+
   // DOM Elements
   const elements = {
     hintChars: document.getElementById('hintChars'),
     uppercase: document.getElementById('uppercase'),
+    activationKey: document.getElementById('activationKey'),
+    activationKeyDisplay: document.getElementById('activationKeyDisplay'),
+    captureKeyBtn: document.getElementById('captureKeyBtn'),
     backgroundColor: document.getElementById('backgroundColor'),
     backgroundColorText: document.getElementById('backgroundColorText'),
     textColor: document.getElementById('textColor'),
@@ -54,12 +61,32 @@
     status: document.getElementById('status')
   };
 
+  // Format key for display
+  function formatKeyDisplay(key) {
+    const keyNames = {
+      ' ': 'Space',
+      'Escape': 'Esc',
+      'ArrowUp': '↑',
+      'ArrowDown': '↓',
+      'ArrowLeft': '←',
+      'ArrowRight': '→'
+    };
+    return keyNames[key] || key;
+  }
+
   // Load settings from storage
   function loadSettings() {
     browser.storage.sync.get(DEFAULT_SETTINGS).then(settings => {
       // Populate form
       elements.hintChars.value = settings.hintChars;
       elements.uppercase.checked = settings.uppercase;
+      
+      // Activation key
+      elements.activationKey.value = formatKeyDisplay(settings.activationKey);
+      elements.activationKey.dataset.key = settings.activationKey;
+      if (elements.activationKeyDisplay) {
+        elements.activationKeyDisplay.textContent = formatKeyDisplay(settings.activationKey);
+      }
       
       // Colors
       elements.backgroundColor.value = settings.backgroundColor;
@@ -91,6 +118,7 @@
   function saveSettings() {
     const settings = {
       hintChars: elements.hintChars.value || DEFAULT_SETTINGS.hintChars,
+      activationKey: elements.activationKey.dataset.key || DEFAULT_SETTINGS.activationKey,
       uppercase: elements.uppercase.checked,
       backgroundColor: elements.backgroundColor.value,
       textColor: elements.textColor.value,
@@ -107,6 +135,12 @@
       showStatus('Please enter at least 2 hint characters', 'error');
       elements.hintChars.classList.add('shake');
       setTimeout(() => elements.hintChars.classList.remove('shake'), 300);
+      return;
+    }
+
+    // Warn if activation key is in hint chars
+    if (settings.hintChars.includes(settings.activationKey)) {
+      showStatus('Warning: Activation key should not be in hint characters', 'error');
       return;
     }
 
@@ -127,6 +161,47 @@
       console.error('Failed to reset settings:', err);
       showStatus('Failed to reset settings', 'error');
     });
+  }
+
+  // Key capture functionality
+  function startKeyCapture() {
+    isCapturingKey = true;
+    elements.activationKey.value = 'Press a key...';
+    elements.activationKey.classList.add('capturing');
+    elements.captureKeyBtn.textContent = 'Cancel';
+    elements.captureKeyBtn.classList.add('capturing');
+  }
+
+  function stopKeyCapture() {
+    isCapturingKey = false;
+    elements.activationKey.classList.remove('capturing');
+    elements.captureKeyBtn.textContent = 'Change';
+    elements.captureKeyBtn.classList.remove('capturing');
+    // Restore displayed value
+    elements.activationKey.value = formatKeyDisplay(elements.activationKey.dataset.key || '/');
+  }
+
+  function handleKeyCaptured(e) {
+    if (!isCapturingKey) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Ignore modifier-only keys
+    if (['Control', 'Shift', 'Alt', 'Meta'].includes(e.key)) {
+      return;
+    }
+
+    const key = e.key;
+    elements.activationKey.dataset.key = key;
+    elements.activationKey.value = formatKeyDisplay(key);
+    
+    // Update the display in shortcuts section
+    if (elements.activationKeyDisplay) {
+      elements.activationKeyDisplay.textContent = formatKeyDisplay(key);
+    }
+    
+    stopKeyCapture();
   }
 
   // Update preview hint
@@ -222,6 +297,26 @@
     elements.uppercase.addEventListener('change', updatePreview);
     elements.fontWeight.addEventListener('change', updatePreview);
 
+    // Key capture for activation key
+    elements.captureKeyBtn.addEventListener('click', () => {
+      if (isCapturingKey) {
+        stopKeyCapture();
+      } else {
+        startKeyCapture();
+      }
+    });
+
+    document.addEventListener('keydown', handleKeyCaptured);
+    
+    // Cancel capture on click outside
+    document.addEventListener('click', (e) => {
+      if (isCapturingKey && 
+          e.target !== elements.activationKey && 
+          e.target !== elements.captureKeyBtn) {
+        stopKeyCapture();
+      }
+    });
+
     // Preset buttons
     document.querySelectorAll('.preset-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -241,7 +336,7 @@
 
     // Save on Enter key in text inputs
     elements.hintChars.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' && !isCapturingKey) {
         saveSettings();
       }
     });

@@ -154,6 +154,54 @@ header {
   margin-top: 6px;
 }
 
+.hint-text kbd {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 11px;
+}
+
+/* Key Capture Input */
+.key-capture-wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.key-input {
+  flex: 1;
+  max-width: 150px;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.key-input.capturing {
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 3px rgba(249, 168, 37, 0.3);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(249, 168, 37, 0.3); }
+  50% { box-shadow: 0 0 0 5px rgba(249, 168, 37, 0.2); }
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.btn-small.capturing {
+  background: #ff5252;
+  color: white;
+}
+
+.btn-small.capturing:hover {
+  background: #f44336;
+}
+
 /* Color Inputs */
 .color-grid {
   display: grid;
@@ -339,6 +387,17 @@ header {
 
 .shortcut-item span {
   color: var(--text-secondary);
+}
+
+.shortcut-item .hint-key {
+  display: inline-block;
+  background: var(--primary);
+  color: var(--text);
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  margin: 0 2px;
 }
 
 /* Buttons */
