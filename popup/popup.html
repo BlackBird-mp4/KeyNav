@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <div class="header">
+      <svg width="24" height="24" viewBox="0 0 48 48" fill="none">
+        <rect x="4" y="4" width="40" height="40" rx="8" fill="#ffeb3b"/>
+        <text x="24" y="32" text-anchor="middle" font-family="system-ui" font-size="22" font-weight="bold" fill="#000">K</text>
+      </svg>
+      <span class="title">KeyClick</span>
+    </div>
+    
+    <div class="shortcut-display">
+      Press <kbd id="activationKey">/</kbd> on any page
+    </div>
+
+    <div class="actions">
+      <button id="showHintsBtn" class="btn btn-primary">
+        <span class="icon">🔤</span>
+        Show Hints Now
+      </button>
+      <button id="optionsBtn" class="btn btn-secondary">
+        <span class="icon">⚙️</span>
+        Options
+      </button>
+    </div>
+
+    <div class="tip">
+      <strong>Tip:</strong> Hold <kbd>Ctrl</kbd> while typing hint to open in new tab
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

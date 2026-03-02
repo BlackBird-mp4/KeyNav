@@ -20,7 +20,8 @@
     "default_icon": {
       "48": "icons/icon-48.svg"
     },
-    "default_title": "KeyClick - Toggle Hints (Alt+J)"
+    "default_title": "KeyClick",
+    "default_popup": "popup/popup.html"
   },
 
   "background": {

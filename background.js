@@ -1,9 +1,9 @@
 /**
  * KeyClick - Background Script
- * Handles keyboard shortcuts and browser action
+ * Handles keyboard shortcuts and settings sync
  */
 
-// Handle keyboard commands
+// Handle keyboard commands (Alt+J, Alt+K)
 browser.commands.onCommand.addListener((command) => {
   browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
     if (tabs[0]) {
@@ -14,12 +14,8 @@ browser.commands.onCommand.addListener((command) => {
   });
 });
 
-// Handle browser action (toolbar button) click
-browser.browserAction.onClicked.addListener((tab) => {
-  browser.tabs.sendMessage(tab.id, { action: 'toggle-hints' }).catch(err => {
-    console.log('KeyClick: Could not send message to tab', err);
-  });
-});
+// Note: Browser action click is handled by popup/popup.js
+// The popup opens automatically when clicking the toolbar icon
 
 // Notify content scripts when settings change
 browser.storage.onChanged.addListener((changes, area) => {
@@ -37,6 +33,6 @@ browser.storage.onChanged.addListener((changes, area) => {
 // Log installation
 browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
-    console.log('KeyClick installed! Press Alt+J to show hints.');
+    console.log('KeyClick installed! Press / to show hints (customizable in options).');
   }
 });
