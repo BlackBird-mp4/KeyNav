@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KeyClick Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="40" height="40" rx="8" fill="#ffeb3b"/>
+          <text x="24" y="32" text-anchor="middle" font-family="system-ui" font-size="22" font-weight="bold" fill="#000">K</text>
+        </svg>
+        <h1>KeyClick</h1>
+      </div>
+      <p class="subtitle">Customize your keyboard navigation experience</p>
+    </header>
+
+    <main>
+      <!-- Preview Section -->
+      <section class="card preview-card">
+        <h2>Live Preview</h2>
+        <div class="preview-container">
+          <div class="preview-hint" id="preview-hint">AS</div>
+          <span class="preview-label">Sample hint appearance</span>
+        </div>
+      </section>
+
+      <!-- Hint Characters -->
+      <section class="card">
+        <h2>Hint Characters</h2>
+        <p class="description">Characters used to generate hints. Order matters - first characters are used for single-letter hints.</p>
+        <div class="form-group">
+          <label for="hintChars">Characters</label>
+          <input type="text" id="hintChars" placeholder="asdfghjkl" maxlength="26">
+          <span class="hint-text">Recommended: home row keys (asdfghjkl) for easy typing</span>
+        </div>
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="uppercase">
+            <span class="checkmark"></span>
+            Display hints in UPPERCASE
+          </label>
+        </div>
+      </section>
+
+      <!-- Colors -->
+      <section class="card">
+        <h2>Colors</h2>
+        <div class="color-grid">
+          <div class="form-group">
+            <label for="backgroundColor">Background</label>
+            <div class="color-input-wrapper">
+              <input type="color" id="backgroundColor" value="#ffeb3b">
+              <input type="text" id="backgroundColorText" class="color-text" placeholder="#ffeb3b">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="textColor">Text</label>
+            <div class="color-input-wrapper">
+              <input type="color" id="textColor" value="#000000">
+              <input type="text" id="textColorText" class="color-text" placeholder="#000000">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="borderColor">Border</label>
+            <div class="color-input-wrapper">
+              <input type="color" id="borderColor" value="#f9a825">
+              <input type="text" id="borderColorText" class="color-text" placeholder="#f9a825">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Color Presets -->
+        <div class="presets">
+          <span class="presets-label">Presets:</span>
+          <button type="button" class="preset-btn" data-preset="yellow" title="Yellow (Default)">
+            <span style="background: #ffeb3b; border-color: #f9a825;"></span>
+          </button>
+          <button type="button" class="preset-btn" data-preset="blue" title="Blue">
+            <span style="background: #2196f3; border-color: #1565c0;"></span>
+          </button>
+          <button type="button" class="preset-btn" data-preset="green" title="Green">
+            <span style="background: #4caf50; border-color: #2e7d32;"></span>
+          </button>
+          <button type="button" class="preset-btn" data-preset="orange" title="Orange">
+            <span style="background: #ff9800; border-color: #e65100;"></span>
+          </button>
+          <button type="button" class="preset-btn" data-preset="purple" title="Purple">
+            <span style="background: #9c27b0; border-color: #6a1b9a;"></span>
+          </button>
+          <button type="button" class="preset-btn" data-preset="dark" title="Dark">
+            <span style="background: #424242; border-color: #212121;"></span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Appearance -->
+      <section class="card">
+        <h2>Appearance</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fontSize">Font Size</label>
+            <div class="range-wrapper">
+              <input type="range" id="fontSize" min="8" max="20" value="12">
+              <span class="range-value" id="fontSizeValue">12px</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="borderRadius">Border Radius</label>
+            <div class="range-wrapper">
+              <input type="range" id="borderRadius" min="0" max="12" value="3">
+              <span class="range-value" id="borderRadiusValue">3px</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="opacity">Opacity</label>
+            <div class="range-wrapper">
+              <input type="range" id="opacity" min="50" max="100" value="95">
+              <span class="range-value" id="opacityValue">95%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="padding">Padding</label>
+            <div class="range-wrapper">
+              <input type="range" id="padding" min="0" max="8" value="2">
+              <span class="range-value" id="paddingValue">2px</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="fontWeight">Font Weight</label>
+          <select id="fontWeight">
+            <option value="normal">Normal</option>
+            <option value="bold" selected>Bold</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Keyboard Shortcuts Info -->
+      <section class="card">
+        <h2>Keyboard Shortcuts</h2>
+        <p class="description">These shortcuts can be customized in Firefox's Add-ons Manager (about:addons → ⚙️ → Manage Extension Shortcuts)</p>
+        <div class="shortcuts-list">
+          <div class="shortcut-item">
+            <kbd>Alt</kbd> + <kbd>J</kbd>
+            <span>Show hints (click in current tab)</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>Alt</kbd> + <kbd>K</kbd>
+            <span>Show hints (open in new tab)</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>Esc</kbd>
+            <span>Cancel / hide hints</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>Backspace</kbd>
+            <span>Delete last typed character</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Actions -->
+      <section class="actions">
+        <button type="button" id="resetBtn" class="btn btn-secondary">Reset to Defaults</button>
+        <button type="button" id="saveBtn" class="btn btn-primary">Save Settings</button>
+      </section>
+
+      <div class="status" id="status"></div>
+    </main>
+
+    <footer>
+      <p>KeyClick v1.0.0 • Made with ⌨️ for keyboard enthusiasts</p>
+    </footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

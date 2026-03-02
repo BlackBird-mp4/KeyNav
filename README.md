@@ -1,0 +1,117 @@
+# KeyClick
+
+A Firefox extension for keyboard-based web navigation using letter hints. Click any link, button, or interactive element without touching your mouse.
+
+![KeyClick Demo](https://via.placeholder.com/600x300?text=KeyClick+Demo)
+
+## Features
+
+- **Letter-based hints**: Press `Alt+J` to show letter hints on all clickable elements
+- **Fast navigation**: Type one or two letters to click any link
+- **Fully customizable**: Change colors, font size, characters, and more
+- **New tab support**: Press `Alt+K` to open links in a new tab
+- **Lightweight**: No bloat, just the essentials
+
+## Installation
+
+### From Firefox Add-ons (Recommended)
+*Coming soon*
+
+### Manual Installation (Development)
+1. Clone this repository
+2. Open Firefox and navigate to `about:debugging`
+3. Click "This Firefox" in the sidebar
+4. Click "Load Temporary Add-on"
+5. Select the `manifest.json` file from the `keyclick` folder
+
+## Usage
+
+| Shortcut | Action |
+|----------|--------|
+| `Alt + J` | Show hints (click in current tab) |
+| `Alt + K` | Show hints (open in new tab) |
+| `Escape` | Cancel / hide hints |
+| `Backspace` | Delete last typed character |
+
+### How it works
+1. Press `Alt+J` to activate hints
+2. Letter labels appear next to all clickable elements
+3. Type the letters to click that element
+4. The hint disappears and the action is performed
+
+## Customization
+
+Click the extension icon → Options, or go to `about:addons` and find KeyClick settings.
+
+### Available Options
+
+- **Hint Characters**: Which letters to use (default: `asdfghjkl` - home row for easy typing)
+- **Colors**: Background, text, and border colors with preset themes
+- **Appearance**: Font size, border radius, opacity, padding
+- **Display**: Uppercase or lowercase hints
+
+### Color Presets
+
+- Yellow (Default)
+- Blue
+- Green
+- Orange  
+- Purple
+- Dark
+
+## Keyboard Shortcuts
+
+You can customize the keyboard shortcuts in Firefox:
+1. Go to `about:addons`
+2. Click the gear icon (⚙️)
+3. Select "Manage Extension Shortcuts"
+4. Find KeyClick and set your preferred shortcuts
+
+## Development
+
+```bash
+# Clone the repo
+git clone https://github.com/yourusername/keyclick.git
+cd keyclick
+
+# Load in Firefox for testing
+# 1. Open about:debugging
+# 2. Load Temporary Add-on
+# 3. Select manifest.json
+```
+
+### Project Structure
+
+```
+keyclick/
+├── manifest.json       # Extension manifest
+├── background.js       # Background script for shortcuts
+├── content.js          # Main hint logic (injected into pages)
+├── content.css         # Hint animations and styles
+├── icons/              # Extension icons
+│   ├── icon-48.svg
+│   └── icon-96.svg
+└── options/            # Settings page
+    ├── options.html
+    ├── options.css
+    └── options.js
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+## Credits
+
+Inspired by:
+- [Link Hints](https://addons.mozilla.org/en-US/firefox/addon/linkhints/)
+- [Key Jump](https://addons.mozilla.org/en-US/firefox/addon/key-jump-keyboard-navigation/)
+- [Vimium](https://addons.mozilla.org/en-US/firefox/addon/vimium-ff/)
+
+---
+
+Made with ⌨️ for keyboard enthusiasts
