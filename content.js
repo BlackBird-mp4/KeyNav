@@ -149,17 +149,14 @@
     hint.textContent = settings.uppercase ? label.toUpperCase() : label;
     hint.dataset.label = label.toLowerCase();
 
-    // Calculate position
-    const scrollX = window.scrollX || document.documentElement.scrollLeft;
-    const scrollY = window.scrollY || document.documentElement.scrollTop;
-
-    // Position hint at top-left of element, slightly offset
-    let left = targetRect.left + scrollX - 2;
-    let top = targetRect.top + scrollY - 2;
+    // Position hint at top-left of element using viewport coordinates
+    // (container is position:fixed, so children use viewport-relative coords)
+    let left = targetRect.left - 2;
+    let top = targetRect.top - 2;
 
     // Ensure hint stays in viewport
-    if (left < scrollX + 5) left = scrollX + 5;
-    if (top < scrollY + 5) top = scrollY + 5;
+    if (left < 5) left = 5;
+    if (top < 5) top = 5;
 
     hint.style.cssText = `
       position: absolute;
@@ -218,6 +215,7 @@
       hintsActive = true;
       currentInput = '';
       document.addEventListener('keydown', handleKeyDown, true);
+      document.addEventListener('keyup', handleKeyUp, true);
       window.addEventListener('scroll', updateHintPositions, true);
       window.addEventListener('resize', updateHintPositions);
       
@@ -232,22 +230,21 @@
     
     hints.forEach(hint => {
       const rect = hint.element.getBoundingClientRect();
-      const scrollX = window.scrollX || document.documentElement.scrollLeft;
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
       
-      let left = rect.left + scrollX - 2;
-      let top = rect.top + scrollY - 2;
+      // Use viewport-relative coords (container is position:fixed)
+      let left = rect.left - 2;
+      let top = rect.top - 2;
       
-      if (left < scrollX + 5) left = scrollX + 5;
-      if (top < scrollY + 5) top = scrollY + 5;
+      if (left < 5) left = 5;
+      if (top < 5) top = 5;
       
       hint.hintElement.style.left = left + 'px';
       hint.hintElement.style.top = top + 'px';
       
       // Hide hints for elements scrolled out of view
-      const inView = rect.top >= 0 && rect.bottom <= window.innerHeight &&
-                     rect.left >= 0 && rect.right <= window.innerWidth;
-      hint.hintElement.style.opacity = inView ? settings.opacity : '0.3';
+      const inView = rect.bottom > 0 && rect.top < window.innerHeight &&
+                     rect.right > 0 && rect.left < window.innerWidth;
+      hint.hintElement.style.display = inView ? 'block' : 'none';
     });
   }
 
@@ -265,6 +262,7 @@
 
     hideInputIndicator();
     document.removeEventListener('keydown', handleKeyDown, true);
+    document.removeEventListener('keyup', handleKeyUp, true);
     window.removeEventListener('scroll', updateHintPositions, true);
     window.removeEventListener('resize', updateHintPositions);
   }
@@ -330,6 +328,16 @@
     }
   }
 
+  // Handle Ctrl key release to update new-tab indicator
+  function handleKeyUp(e) {
+    if (!hintsActive) return;
+    
+    if (e.key === 'Control') {
+      openInNewTab = false;
+      updateInputIndicator();
+    }
+  }
+
   // Handle keyboard input
   function handleKeyDown(e) {
     if (!hintsActive) return;
@@ -371,7 +379,9 @@
     // Check for match
     const match = hints.find(h => h.label === currentInput);
     if (match) {
-      activateElement(match.element);
+      // Capture new-tab state before hideHints resets it
+      const shouldOpenNewTab = openInNewTab;
+      activateElement(match.element, shouldOpenNewTab);
       if (settings.persistentMode) {
         // In persistent mode, refresh hints after click
         currentInput = '';
@@ -421,10 +431,10 @@
   }
 
   // Activate (click) the target element
-  function activateElement(el) {
+  function activateElement(el, newTab) {
     // Handle links
     if (el.tagName === 'A' && el.href) {
-      if (openInNewTab) {
+      if (newTab) {
         window.open(el.href, '_blank');
       } else {
         el.click();
@@ -448,11 +458,7 @@
     }
 
     // Default: simulate click
-    if (openInNewTab && el.tagName === 'A') {
-      window.open(el.href, '_blank');
-    } else {
-      el.click();
-    }
+    el.click();
   }
 
   // Refresh hints (for persistent mode)
