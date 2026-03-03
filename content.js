@@ -30,7 +30,7 @@
 
   // Load settings from storage
   function loadSettings() {
-    return browser.storage.sync.get(DEFAULT_SETTINGS).then(stored => {
+    return browser.storage.local.get(DEFAULT_SETTINGS).then(stored => {
       settings = { ...DEFAULT_SETTINGS, ...stored };
     }).catch(() => {
       settings = { ...DEFAULT_SETTINGS };

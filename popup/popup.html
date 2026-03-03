@@ -7,30 +7,88 @@
 <body>
   <div class="popup">
     <div class="header">
-      <svg width="24" height="24" viewBox="0 0 48 48" fill="none">
-        <rect x="4" y="4" width="40" height="40" rx="8" fill="#ffeb3b"/>
-        <text x="24" y="32" text-anchor="middle" font-family="system-ui" font-size="22" font-weight="bold" fill="#000">K</text>
-      </svg>
-      <span class="title">KeyClick</span>
-    </div>
-    
-    <div class="shortcut-display">
-      Press <kbd id="activationKey">/</kbd> on any page
-    </div>
-
-    <div class="actions">
-      <button id="showHintsBtn" class="btn btn-primary">
-        <span class="icon">🔤</span>
-        Show Hints Now
-      </button>
-      <button id="optionsBtn" class="btn btn-secondary">
-        <span class="icon">⚙️</span>
-        Options
-      </button>
+      <div class="logo">
+        <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
+          <rect x="4" y="4" width="40" height="40" rx="8" fill="#ffeb3b"/>
+          <text x="24" y="32" text-anchor="middle" font-family="system-ui" font-size="22" font-weight="bold" fill="#000">K</text>
+        </svg>
+        <span class="title">KeyClick</span>
+      </div>
+      <div class="status" id="status"></div>
     </div>
 
-    <div class="tip">
-      <strong>Tip:</strong> Hold <kbd>Ctrl</kbd> while typing hint to open in new tab
+    <!-- Activation Key -->
+    <div class="section">
+      <label class="label">Activation Key</label>
+      <div class="key-row">
+        <div class="key-display" id="activationKeyDisplay">/</div>
+        <button id="changeKeyBtn" class="btn-change">Change</button>
+      </div>
+      <div class="hint">Hold <kbd>Ctrl</kbd> + hint = new tab</div>
+    </div>
+
+    <!-- Hint Characters -->
+    <div class="section">
+      <label class="label">Hint Characters</label>
+      <input type="text" id="hintChars" class="input" placeholder="asdfghjkl">
+    </div>
+
+    <!-- Colors -->
+    <div class="section">
+      <label class="label">Colors</label>
+      <div class="color-row">
+        <div class="color-item">
+          <input type="color" id="backgroundColor" class="color-picker">
+          <span>Fill</span>
+        </div>
+        <div class="color-item">
+          <input type="color" id="textColor" class="color-picker">
+          <span>Text</span>
+        </div>
+        <div class="color-item">
+          <input type="color" id="borderColor" class="color-picker">
+          <span>Border</span>
+        </div>
+      </div>
+      <div class="presets">
+        <button class="preset" data-preset="yellow" style="background:#ffeb3b" title="Yellow"></button>
+        <button class="preset" data-preset="blue" style="background:#2196f3" title="Blue"></button>
+        <button class="preset" data-preset="green" style="background:#4caf50" title="Green"></button>
+        <button class="preset" data-preset="orange" style="background:#ff9800" title="Orange"></button>
+        <button class="preset" data-preset="purple" style="background:#9c27b0" title="Purple"></button>
+        <button class="preset" data-preset="dark" style="background:#424242" title="Dark"></button>
+      </div>
+    </div>
+
+    <!-- Size & Style -->
+    <div class="section">
+      <label class="label">Style</label>
+      <div class="style-row">
+        <div class="style-item">
+          <span>Size</span>
+          <input type="range" id="fontSize" min="10" max="18" value="12">
+        </div>
+        <div class="style-item">
+          <span>Round</span>
+          <input type="range" id="borderRadius" min="0" max="10" value="3">
+        </div>
+      </div>
+      <label class="checkbox">
+        <input type="checkbox" id="uppercase" checked>
+        <span>UPPERCASE hints</span>
+      </label>
+    </div>
+
+    <!-- Preview -->
+    <div class="section preview-section">
+      <span class="preview-label">Preview:</span>
+      <div class="preview-hint" id="preview">AS</div>
+    </div>
+
+    <!-- Actions -->
+    <div class="footer">
+      <button id="resetBtn" class="btn-reset">Reset</button>
+      <button id="saveBtn" class="btn-save">Save</button>
     </div>
   </div>
 

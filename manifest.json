@@ -38,11 +38,6 @@
     }
   ],
 
-  "options_ui": {
-    "page": "options/options.html",
-    "open_in_tab": true
-  },
-
   "commands": {
     "toggle-hints": {
       "suggested_key": {

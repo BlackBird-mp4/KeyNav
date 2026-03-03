@@ -19,7 +19,7 @@ browser.commands.onCommand.addListener((command) => {
 
 // Notify content scripts when settings change
 browser.storage.onChanged.addListener((changes, area) => {
-  if (area === 'sync') {
+  if (area === 'local') {
     browser.tabs.query({}).then(tabs => {
       tabs.forEach(tab => {
         browser.tabs.sendMessage(tab.id, { action: 'settings-updated' }).catch(() => {

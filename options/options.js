@@ -76,7 +76,7 @@
 
   // Load settings from storage
   function loadSettings() {
-    browser.storage.sync.get(DEFAULT_SETTINGS).then(settings => {
+    browser.storage.local.get(DEFAULT_SETTINGS).then(settings => {
       // Populate form
       elements.hintChars.value = settings.hintChars;
       elements.uppercase.checked = settings.uppercase;
@@ -144,7 +144,7 @@
       return;
     }
 
-    browser.storage.sync.set(settings).then(() => {
+    browser.storage.local.set(settings).then(() => {
       showStatus('Settings saved!', 'success');
     }).catch(err => {
       console.error('Failed to save settings:', err);
@@ -154,7 +154,7 @@
 
   // Reset to defaults
   function resetSettings() {
-    browser.storage.sync.set(DEFAULT_SETTINGS).then(() => {
+    browser.storage.local.set(DEFAULT_SETTINGS).then(() => {
       loadSettings();
       showStatus('Settings reset to defaults', 'success');
     }).catch(err => {
