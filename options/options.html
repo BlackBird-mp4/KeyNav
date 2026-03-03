@@ -11,8 +11,8 @@
     <header>
       <div class="logo">
         <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="4" width="40" height="40" rx="8" fill="#ffeb3b"/>
-          <text x="24" y="32" text-anchor="middle" font-family="system-ui" font-size="22" font-weight="bold" fill="#000">K</text>
+          <rect x="4" y="4" width="40" height="40" rx="8" fill="#2d2d2d" stroke="#2dcfff" stroke-width="2"/>
+          <text x="24" y="32" text-anchor="middle" font-family="system-ui" font-size="22" font-weight="bold" fill="#2dcfff">N</text>
         </svg>
         <h1>KeyNav</h1>
       </div>
@@ -91,7 +91,10 @@
         <!-- Color Presets -->
         <div class="presets">
           <span class="presets-label">Presets:</span>
-          <button type="button" class="preset-btn" data-preset="yellow" title="Yellow (Default)">
+          <button type="button" class="preset-btn" data-preset="cyan" title="Cyan (Default)">
+            <span style="background: #666666; border-color: #2dcfff;"></span>
+          </button>
+          <button type="button" class="preset-btn" data-preset="yellow" title="Yellow">
             <span style="background: #ffeb3b; border-color: #f9a825;"></span>
           </button>
           <button type="button" class="preset-btn" data-preset="blue" title="Blue">
@@ -103,9 +106,6 @@
           <button type="button" class="preset-btn" data-preset="orange" title="Orange">
             <span style="background: #ff9800; border-color: #e65100;"></span>
           </button>
-          <button type="button" class="preset-btn" data-preset="purple" title="Purple">
-            <span style="background: #9c27b0; border-color: #6a1b9a;"></span>
-          </button>
           <button type="button" class="preset-btn" data-preset="dark" title="Dark">
             <span style="background: #424242; border-color: #212121;"></span>
           </button>
@@ -115,36 +115,32 @@
       <!-- Appearance -->
       <section class="card">
         <h2>Appearance</h2>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="fontSize">Font Size</label>
-            <div class="range-wrapper">
-              <input type="range" id="fontSize" min="8" max="20" value="12">
-              <span class="range-value" id="fontSizeValue">12px</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="borderRadius">Border Radius</label>
-            <div class="range-wrapper">
-              <input type="range" id="borderRadius" min="0" max="12" value="3">
-              <span class="range-value" id="borderRadiusValue">3px</span>
-            </div>
+        <div class="form-group">
+          <label for="fontSize">Font Size</label>
+          <div class="range-wrapper">
+            <input type="range" id="fontSize" min="8" max="20" value="12">
+            <span class="range-value" id="fontSizeValue">12px</span>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="opacity">Opacity</label>
-            <div class="range-wrapper">
-              <input type="range" id="opacity" min="50" max="100" value="95">
-              <span class="range-value" id="opacityValue">95%</span>
-            </div>
+        <div class="form-group">
+          <label for="borderRadius">Border Radius</label>
+          <div class="range-wrapper">
+            <input type="range" id="borderRadius" min="0" max="12" value="3">
+            <span class="range-value" id="borderRadiusValue">3px</span>
           </div>
-          <div class="form-group">
-            <label for="padding">Padding</label>
-            <div class="range-wrapper">
-              <input type="range" id="padding" min="0" max="8" value="2">
-              <span class="range-value" id="paddingValue">2px</span>
-            </div>
+        </div>
+        <div class="form-group">
+          <label for="opacity">Opacity</label>
+          <div class="range-wrapper">
+            <input type="range" id="opacity" min="50" max="100" value="95">
+            <span class="range-value" id="opacityValue">95%</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="padding">Padding</label>
+          <div class="range-wrapper">
+            <input type="range" id="padding" min="0" max="8" value="2">
+            <span class="range-value" id="paddingValue">2px</span>
           </div>
         </div>
         <div class="form-group">

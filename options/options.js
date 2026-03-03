@@ -24,11 +24,11 @@
 
   // Color presets
   const PRESETS = {
+    cyan: { backgroundColor: '#666666', textColor: '#2dcfff', borderColor: '#2dcfff' },
     yellow: { backgroundColor: '#ffeb3b', textColor: '#000000', borderColor: '#f9a825' },
     blue: { backgroundColor: '#2196f3', textColor: '#ffffff', borderColor: '#1565c0' },
     green: { backgroundColor: '#4caf50', textColor: '#ffffff', borderColor: '#2e7d32' },
     orange: { backgroundColor: '#ff9800', textColor: '#000000', borderColor: '#e65100' },
-    purple: { backgroundColor: '#9c27b0', textColor: '#ffffff', borderColor: '#6a1b9a' },
     dark: { backgroundColor: '#424242', textColor: '#ffffff', borderColor: '#212121' }
   };
 

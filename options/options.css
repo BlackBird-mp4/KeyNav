@@ -26,12 +26,14 @@ body {
   color: var(--text);
   line-height: 1.6;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .container {
   max-width: 700px;
   margin: 0 auto;
   padding: 24px;
+  overflow-x: hidden;
 }
 
 /* Header */
@@ -300,18 +302,6 @@ header {
 }
 
 /* Range Inputs */
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-@media (max-width: 500px) {
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-}
-
 .range-wrapper {
   display: flex;
   align-items: center;

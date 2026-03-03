@@ -65,7 +65,7 @@ Click the extension icon → Options, or go to `about:addons` and find KeyNav se
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/keynav.git
+git clone https://github.com/BlackBird-mp4/KeyNav.git
 cd keynav
 
 # Load in Firefox for testing
