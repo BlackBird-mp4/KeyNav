@@ -1,4 +1,4 @@
-# KeyClick
+# KeyNav
 
 A Firefox extension for keyboard-based web navigation using letter hints. Click any link, button, or interactive element without touching your mouse.
 
@@ -22,7 +22,7 @@ A Firefox extension for keyboard-based web navigation using letter hints. Click 
 2. Open Firefox and navigate to `about:debugging`
 3. Click "This Firefox" in the sidebar
 4. Click "Load Temporary Add-on"
-5. Select the `manifest.json` file from the `keyclick` folder
+5. Select the `manifest.json` file from the `keynav` folder
 
 ## Usage
 
@@ -42,7 +42,7 @@ A Firefox extension for keyboard-based web navigation using letter hints. Click 
 
 ## Customization
 
-Click the extension icon → Options, or go to `about:addons` and find KeyClick settings.
+Click the extension icon → Options, or go to `about:addons` and find KeyNav settings.
 
 ### Available Options
 
@@ -65,8 +65,8 @@ Click the extension icon → Options, or go to `about:addons` and find KeyClick 
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/keyclick.git
-cd keyclick
+git clone https://github.com/yourusername/keynav.git
+cd keynav
 
 # Load in Firefox for testing
 # 1. Open about:debugging
@@ -77,7 +77,7 @@ cd keyclick
 ### Project Structure
 
 ```
-keyclick/
+keynav/
 ├── manifest.json       # Extension manifest
 ├── background.js       # Background script for shortcuts
 ├── content.js          # Main hint logic (injected into pages)
@@ -85,7 +85,11 @@ keyclick/
 ├── icons/              # Extension icons
 │   ├── icon-48.svg
 │   └── icon-96.svg
-└── options/            # Settings page
+├── popup/              # Popup settings
+│   ├── popup.html
+│   ├── popup.css
+│   └── popup.js
+└── options/            # Full settings page
     ├── options.html
     ├── options.css
     └── options.js

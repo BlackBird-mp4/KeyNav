@@ -5,18 +5,6 @@
 }
 
 :root {
-  --bg: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --text: #333333;
-  --text-muted: #888888;
-  --text-label: #666666;
-  --border: #dddddd;
-  --border-light: #eeeeee;
-  --accent: #ffeb3b;
-  --accent-hover: #fdd835;
-}
-
-body.dark {
   --bg: #1e1e1e;
   --bg-secondary: #2d2d2d;
   --text: #e0e0e0;
@@ -24,20 +12,20 @@ body.dark {
   --text-label: #aaaaaa;
   --border: #444444;
   --border-light: #333333;
-  --accent: #ffeb3b;
-  --accent-hover: #fdd835;
+  --accent: #2dcfff;
+  --accent-hover: #5ddaff;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  width: 360px;
+  width: 340px;
   background: var(--bg);
   font-size: 13px;
   color: var(--text);
 }
 
 .popup {
-  padding: 16px;
+  padding: 14px;
 }
 
 /* Header */
@@ -388,11 +376,12 @@ body.dark .key-display.capturing {
 }
 
 .style-item span:first-child {
-  min-width: 55px;
+  min-width: 48px;
+  flex-shrink: 0;
 }
 
 .range-value {
-  min-width: 28px;
+  min-width: 24px;
   text-align: right;
   font-family: monospace;
   font-size: 11px;
@@ -412,7 +401,7 @@ body.dark .key-display.capturing {
   -webkit-appearance: none;
   width: 14px;
   height: 14px;
-  background: #f9a825;
+  background: var(--accent);
   border-radius: 50%;
   cursor: pointer;
 }
@@ -420,7 +409,7 @@ body.dark .key-display.capturing {
 .style-item input[type="range"]::-moz-range-thumb {
   width: 14px;
   height: 14px;
-  background: #f9a825;
+  background: var(--accent);
   border-radius: 50%;
   cursor: pointer;
   border: none;

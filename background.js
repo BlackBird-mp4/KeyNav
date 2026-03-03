@@ -1,5 +1,5 @@
 /**
- * KeyClick - Background Script
+ * KeyNav - Background Script
  * Handles keyboard shortcuts and settings sync
  */
 
@@ -10,7 +10,7 @@ browser.commands.onCommand.addListener((command) => {
       browser.tabs.sendMessage(tabs[0].id, { action: command });
     }
   }).catch(err => {
-    console.log('KeyClick: Could not send message to tab', err);
+    console.log('KeyNav: Could not send message to tab', err);
   });
 });
 
@@ -33,6 +33,6 @@ browser.storage.onChanged.addListener((changes, area) => {
 // Log installation
 browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
-    console.log('KeyClick installed! Press / to show hints (customizable in options).');
+    console.log('KeyNav installed! Press / to show hints (customizable in options).');
   }
 });

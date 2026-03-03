@@ -1,5 +1,5 @@
 /**
- * KeyClick - Content Script
+ * KeyNav - Content Script
  * Handles hint generation, display, and interaction
  */
 
@@ -10,16 +10,17 @@
   const DEFAULT_SETTINGS = {
     hintChars: 'asdfghjkl',
     activationKey: '/',
-    backgroundColor: '#ffeb3b',
-    textColor: '#000000',
-    borderColor: '#f9a825',
+    backgroundColor: '#666666',
+    textColor: '#2dcfff',
+    borderColor: '#2dcfff',
     fontSize: 12,
     fontWeight: 'bold',
     borderRadius: 3,
     opacity: 0.95,
     padding: 2,
     uppercase: true,
-    showInputIndicator: true
+    showInputIndicator: true,
+    persistentMode: false
   };
 
   let settings = { ...DEFAULT_SETTINGS };
@@ -217,9 +218,36 @@
       hintsActive = true;
       currentInput = '';
       document.addEventListener('keydown', handleKeyDown, true);
+      window.addEventListener('scroll', updateHintPositions, true);
+      window.addEventListener('resize', updateHintPositions);
       
       // Show input indicator
       showInputIndicator();
+    });
+  }
+
+  // Update hint positions on scroll/resize
+  function updateHintPositions() {
+    if (!hintsActive) return;
+    
+    hints.forEach(hint => {
+      const rect = hint.element.getBoundingClientRect();
+      const scrollX = window.scrollX || document.documentElement.scrollLeft;
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      
+      let left = rect.left + scrollX - 2;
+      let top = rect.top + scrollY - 2;
+      
+      if (left < scrollX + 5) left = scrollX + 5;
+      if (top < scrollY + 5) top = scrollY + 5;
+      
+      hint.hintElement.style.left = left + 'px';
+      hint.hintElement.style.top = top + 'px';
+      
+      // Hide hints for elements scrolled out of view
+      const inView = rect.top >= 0 && rect.bottom <= window.innerHeight &&
+                     rect.left >= 0 && rect.right <= window.innerWidth;
+      hint.hintElement.style.opacity = inView ? settings.opacity : '0.3';
     });
   }
 
@@ -237,6 +265,8 @@
 
     hideInputIndicator();
     document.removeEventListener('keydown', handleKeyDown, true);
+    window.removeEventListener('scroll', updateHintPositions, true);
+    window.removeEventListener('resize', updateHintPositions);
   }
 
   // Input indicator for showing typed characters
@@ -342,7 +372,16 @@
     const match = hints.find(h => h.label === currentInput);
     if (match) {
       activateElement(match.element);
-      hideHints();
+      if (settings.persistentMode) {
+        // In persistent mode, refresh hints after click
+        currentInput = '';
+        updateInputIndicator();
+        filterHints();
+        // Refresh hints after a short delay for DOM updates
+        setTimeout(refreshHints, 100);
+      } else {
+        hideHints();
+      }
       return;
     }
 
@@ -416,9 +455,34 @@
     }
   }
 
+  // Refresh hints (for persistent mode)
+  function refreshHints() {
+    if (!hintsActive) return;
+    
+    // Clear existing hints
+    if (hintContainer) {
+      hintContainer.innerHTML = '';
+    }
+    
+    const elements = getClickableElements();
+    const labels = generateHintStrings(elements.length);
+    
+    hints = [];
+    elements.forEach((el, index) => {
+      const rect = el.getBoundingClientRect();
+      const hintEl = createHintElement(labels[index], rect);
+      hintContainer.appendChild(hintEl);
+      hints.push({
+        element: el,
+        hintElement: hintEl,
+        label: labels[index].toLowerCase()
+      });
+    });
+  }
+
   // Listen for messages from background script
   browser.runtime.onMessage.addListener((message) => {
-    if (message.action === 'toggle-hints') {
+    if (message.action === 'toggle-hints' || message.action === 'browser-action') {
       showHints(false);
     } else if (message.action === 'toggle-hints-newtab') {
       showHints(true);
@@ -427,16 +491,9 @@
     }
   });
 
-  // Listen for browser action clicks
-  browser.runtime.onMessage.addListener((message) => {
-    if (message.action === 'browser-action') {
-      showHints(false);
-    }
-  });
-
   // Global keyboard listener for activation key
   document.addEventListener('keydown', (e) => {
-    // Don't activate if typing in an input field
+    // Don't activate if typing in an input field (unless hints are active)
     const activeEl = document.activeElement;
     const isTyping = activeEl && (
       activeEl.tagName === 'INPUT' ||
@@ -445,13 +502,19 @@
       activeEl.isContentEditable
     );
 
-    if (isTyping) return;
-
-    // Check for activation key
-    if (!hintsActive && e.key === settings.activationKey) {
-      e.preventDefault();
-      e.stopPropagation();
-      showHints(false);
+    // Activation key toggles hints on/off
+    if (e.key === settings.activationKey) {
+      if (hintsActive) {
+        e.preventDefault();
+        e.stopPropagation();
+        hideHints();
+        return;
+      }
+      if (!isTyping) {
+        e.preventDefault();
+        e.stopPropagation();
+        showHints(false);
+      }
     }
   }, true);
 
@@ -459,7 +522,7 @@
   loadSettings();
 
   // Expose for testing
-  window.__keyclick = {
+  window.__keynav = {
     show: showHints,
     hide: hideHints,
     isActive: () => hintsActive

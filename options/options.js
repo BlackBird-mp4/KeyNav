@@ -1,5 +1,5 @@
 /**
- * KeyClick - Options Page Script
+ * KeyNav - Options Page Script
  */
 
 (function() {
@@ -9,15 +9,17 @@
   const DEFAULT_SETTINGS = {
     hintChars: 'asdfghjkl',
     activationKey: '/',
-    backgroundColor: '#ffeb3b',
-    textColor: '#000000',
-    borderColor: '#f9a825',
+    backgroundColor: '#666666',
+    textColor: '#2dcfff',
+    borderColor: '#2dcfff',
     fontSize: 12,
     fontWeight: 'bold',
     borderRadius: 3,
     opacity: 0.95,
     padding: 2,
-    uppercase: true
+    uppercase: true,
+    showInputIndicator: true,
+    persistentMode: false
   };
 
   // Color presets
@@ -55,6 +57,8 @@
     padding: document.getElementById('padding'),
     paddingValue: document.getElementById('paddingValue'),
     fontWeight: document.getElementById('fontWeight'),
+    showInputIndicator: document.getElementById('showInputIndicator'),
+    persistentMode: document.getElementById('persistentMode'),
     previewHint: document.getElementById('preview-hint'),
     saveBtn: document.getElementById('saveBtn'),
     resetBtn: document.getElementById('resetBtn'),
@@ -107,6 +111,10 @@
       elements.paddingValue.textContent = settings.padding + 'px';
       elements.fontWeight.value = settings.fontWeight;
       
+      // Behavior options
+      elements.showInputIndicator.checked = settings.showInputIndicator;
+      elements.persistentMode.checked = settings.persistentMode;
+      
       updatePreview();
     }).catch(err => {
       console.error('Failed to load settings:', err);
@@ -127,7 +135,9 @@
       fontWeight: elements.fontWeight.value,
       borderRadius: parseInt(elements.borderRadius.value, 10),
       opacity: parseInt(elements.opacity.value, 10) / 100,
-      padding: parseInt(elements.padding.value, 10)
+      padding: parseInt(elements.padding.value, 10),
+      showInputIndicator: elements.showInputIndicator.checked,
+      persistentMode: elements.persistentMode.checked
     };
 
     // Validate hint chars

@@ -1,10 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "KeyClick",
+  "name": "KeyNav",
   "version": "1.0.0",
-  "description": "Click any link or button using keyboard letter hints. Fast, customizable, and mouse-free navigation.",
-  "author": "KeyClick",
-  "homepage_url": "https://github.com/user/keyclick",
+  "description": "Navigate any website with keyboard letter hints. Fast, customizable, and mouse-free browsing.",
+  "author": "KeyNav",
+  "homepage_url": "https://github.com/user/keynav",
   
   "icons": {
     "48": "icons/icon-48.svg",
@@ -20,7 +20,7 @@
     "default_icon": {
       "48": "icons/icon-48.svg"
     },
-    "default_title": "KeyClick",
+    "default_title": "KeyNav",
     "default_popup": "popup/popup.html"
   },
 
@@ -37,6 +37,11 @@
       "run_at": "document_end"
     }
   ],
+
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
 
   "commands": {
     "toggle-hints": {

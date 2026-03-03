@@ -1,5 +1,5 @@
 /**
- * KeyClick - Popup Settings Script
+ * KeyNav - Popup Settings Script
  */
 
 (function() {
@@ -9,9 +9,9 @@
   const DEFAULT_SETTINGS = {
     hintChars: 'asdfghjkl',
     activationKey: '/',
-    backgroundColor: '#ffeb3b',
-    textColor: '#000000',
-    borderColor: '#f9a825',
+    backgroundColor: '#666666',
+    textColor: '#2dcfff',
+    borderColor: '#2dcfff',
     fontSize: 12,
     fontWeight: 'bold',
     borderRadius: 3,
@@ -19,16 +19,16 @@
     padding: 2,
     uppercase: true,
     showInputIndicator: true,
-    darkMode: false
+    persistentMode: false
   };
 
   // Color presets
   const PRESETS = {
+    cyan: { backgroundColor: '#666666', textColor: '#2dcfff', borderColor: '#2dcfff' },
     yellow: { backgroundColor: '#ffeb3b', textColor: '#000000', borderColor: '#f9a825' },
     blue: { backgroundColor: '#2196f3', textColor: '#ffffff', borderColor: '#1565c0' },
     green: { backgroundColor: '#4caf50', textColor: '#ffffff', borderColor: '#2e7d32' },
     orange: { backgroundColor: '#ff9800', textColor: '#000000', borderColor: '#e65100' },
-    purple: { backgroundColor: '#9c27b0', textColor: '#ffffff', borderColor: '#6a1b9a' },
     dark: { backgroundColor: '#424242', textColor: '#ffffff', borderColor: '#212121' }
   };
 
@@ -47,7 +47,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'keyclick-settings.json';
+      a.download = 'keynav-settings.json';
       a.click();
       URL.revokeObjectURL(url);
       showStatus('Exported!', 'success');
@@ -108,22 +108,11 @@
     els.opacityVal = document.getElementById('opacityVal');
     els.uppercase = document.getElementById('uppercase');
     els.showInputIndicator = document.getElementById('showInputIndicator');
+    els.persistentMode = document.getElementById('persistentMode');
     els.preview = document.getElementById('preview');
     els.saveBtn = document.getElementById('saveBtn');
     els.resetBtn = document.getElementById('resetBtn');
     els.status = document.getElementById('status');
-    els.themeToggle = document.getElementById('themeToggle');
-  }
-
-  // Dark mode
-  function applyDarkMode(enabled) {
-    document.body.classList.toggle('dark', enabled);
-  }
-
-  function toggleDarkMode() {
-    const isDark = !document.body.classList.contains('dark');
-    applyDarkMode(isDark);
-    browser.storage.local.set({ darkMode: isDark });
   }
 
   // Validate and normalize hex color
@@ -245,9 +234,6 @@
     browser.storage.local.get(DEFAULT_SETTINGS).then(settings => {
       currentSettings = { ...DEFAULT_SETTINGS, ...settings };
       
-      // Apply dark mode
-      applyDarkMode(currentSettings.darkMode);
-      
       // Populate UI
       els.activationKeyDisplay.textContent = formatKey(currentSettings.activationKey);
       els.activationKeyDisplay.dataset.key = currentSettings.activationKey;
@@ -261,6 +247,7 @@
       els.opacity.value = Math.round(currentSettings.opacity * 100);
       els.uppercase.checked = currentSettings.uppercase;
       els.showInputIndicator.checked = currentSettings.showInputIndicator;
+      els.persistentMode.checked = currentSettings.persistentMode;
       
       updateRangeValues();
       updatePreview();
@@ -306,7 +293,7 @@
       padding: parseInt(els.padding.value, 10),
       uppercase: els.uppercase.checked,
       showInputIndicator: els.showInputIndicator.checked,
-      darkMode: document.body.classList.contains('dark')
+      persistentMode: els.persistentMode.checked
     };
 
     // Validate
@@ -449,9 +436,6 @@
     // Other inputs
     els.hintChars.addEventListener('input', updatePreview);
     els.uppercase.addEventListener('change', updatePreview);
-
-    // Dark mode toggle
-    els.themeToggle.addEventListener('click', toggleDarkMode);
 
     // Presets
     document.querySelectorAll('.preset').forEach(btn => {

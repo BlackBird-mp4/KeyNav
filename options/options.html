@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KeyClick Settings</title>
+  <title>KeyNav Settings</title>
   <link rel="stylesheet" href="options.css">
 </head>
 <body>
@@ -14,7 +14,7 @@
           <rect x="4" y="4" width="40" height="40" rx="8" fill="#ffeb3b"/>
           <text x="24" y="32" text-anchor="middle" font-family="system-ui" font-size="22" font-weight="bold" fill="#000">K</text>
         </svg>
-        <h1>KeyClick</h1>
+        <h1>KeyNav</h1>
       </div>
       <p class="subtitle">Customize your keyboard navigation experience</p>
     </header>
@@ -154,6 +154,20 @@
             <option value="bold" selected>Bold</option>
           </select>
         </div>
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="showInputIndicator" checked>
+            <span class="checkmark"></span>
+            Show typing indicator at bottom of screen
+          </label>
+        </div>
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="persistentMode">
+            <span class="checkmark"></span>
+            Persistent mode (hints stay active after clicking)
+          </label>
+        </div>
       </section>
 
       <!-- Keyboard Shortcuts Info -->
@@ -190,7 +204,7 @@
     </main>
 
     <footer>
-      <p>KeyClick v1.0.0 • Made with ⌨️ for keyboard enthusiasts</p>
+      <p>KeyNav v1.0.0 • Made with ⌨️ for keyboard enthusiasts</p>
     </footer>
   </div>
 
