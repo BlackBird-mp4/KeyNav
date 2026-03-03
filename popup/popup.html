@@ -38,22 +38,29 @@
       <label class="label">Colors</label>
       <div class="color-inputs">
         <div class="color-input-row">
-          <div class="color-swatch" id="bgSwatch"></div>
+          <div class="color-swatch clickable" id="bgSwatch" data-target="backgroundColor" title="Click to pick"></div>
           <input type="text" id="backgroundColor" class="hex-input" placeholder="#ffeb3b" maxlength="7">
           <span class="color-label">Fill</span>
         </div>
         <div class="color-input-row">
-          <div class="color-swatch" id="textSwatch"></div>
+          <div class="color-swatch clickable" id="textSwatch" data-target="textColor" title="Click to pick"></div>
           <input type="text" id="textColor" class="hex-input" placeholder="#000000" maxlength="7">
           <span class="color-label">Text</span>
         </div>
         <div class="color-input-row">
-          <div class="color-swatch" id="borderSwatch"></div>
+          <div class="color-swatch clickable" id="borderSwatch" data-target="borderColor" title="Click to pick"></div>
           <input type="text" id="borderColor" class="hex-input" placeholder="#f9a825" maxlength="7">
           <span class="color-label">Border</span>
         </div>
       </div>
-      <div class="presets-label">Presets:</div>
+      
+      <!-- Inline Color Picker -->
+      <div class="color-picker-popup" id="colorPickerPopup">
+        <div class="picker-palette" id="pickerPalette"></div>
+        <div class="picker-shades" id="pickerShades"></div>
+      </div>
+      
+      <div class="presets-label">Theme Presets:</div>
       <div class="presets">
         <button class="preset" data-preset="yellow" style="background:#ffeb3b" title="Yellow"></button>
         <button class="preset" data-preset="blue" style="background:#2196f3" title="Blue"></button>

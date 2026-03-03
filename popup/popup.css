@@ -179,6 +179,21 @@ body {
   flex-shrink: 0;
 }
 
+.color-swatch.clickable {
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.color-swatch.clickable:hover {
+  transform: scale(1.1);
+  border-color: #999;
+}
+
+.color-swatch.active {
+  border-color: #f9a825;
+  box-shadow: 0 0 0 2px rgba(249, 168, 37, 0.3);
+}
+
 .hex-input {
   width: 90px;
   padding: 6px 10px;
@@ -197,6 +212,54 @@ body {
 .color-label {
   font-size: 12px;
   color: #666;
+}
+
+/* Inline Color Picker */
+.color-picker-popup {
+  display: none;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.color-picker-popup.show {
+  display: block;
+}
+
+.picker-palette {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.picker-color {
+  width: 26px;
+  height: 26px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.picker-color:hover {
+  transform: scale(1.15);
+  z-index: 1;
+}
+
+.picker-color.light {
+  border-color: #ddd;
+}
+
+.picker-shades {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
 }
 
 .presets-label {

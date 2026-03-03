@@ -128,6 +128,91 @@
     els.borderSwatch.style.backgroundColor = border;
   }
 
+  // Color picker palette
+  const PALETTE_COLORS = [
+    // Row 1: Main colors
+    '#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5',
+    '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50',
+    // Row 2: Lighter
+    '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800',
+    '#ff5722', '#795548', '#9e9e9e', '#607d8b', '#000000',
+  ];
+
+  const SHADE_COLORS = [
+    // Grays and common variations
+    '#ffffff', '#fafafa', '#f5f5f5', '#eeeeee', '#e0e0e0',
+    '#bdbdbd', '#9e9e9e', '#757575', '#616161', '#424242',
+  ];
+
+  let activePickerTarget = null;
+
+  function initColorPicker() {
+    const popup = document.getElementById('colorPickerPopup');
+    const palette = document.getElementById('pickerPalette');
+    const shades = document.getElementById('pickerShades');
+
+    // Build palette
+    PALETTE_COLORS.forEach(color => {
+      const el = document.createElement('div');
+      el.className = 'picker-color';
+      el.style.backgroundColor = color;
+      el.dataset.color = color;
+      palette.appendChild(el);
+    });
+
+    // Build shades
+    SHADE_COLORS.forEach(color => {
+      const el = document.createElement('div');
+      el.className = 'picker-color' + (color === '#ffffff' || color === '#fafafa' || color === '#f5f5f5' ? ' light' : '');
+      el.style.backgroundColor = color;
+      el.dataset.color = color;
+      shades.appendChild(el);
+    });
+
+    // Click on swatch to open picker
+    document.querySelectorAll('.color-swatch.clickable').forEach(swatch => {
+      swatch.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const target = swatch.dataset.target;
+        
+        if (activePickerTarget === target && popup.classList.contains('show')) {
+          // Close if clicking same swatch
+          closePicker();
+        } else {
+          // Open picker for this target
+          document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+          swatch.classList.add('active');
+          activePickerTarget = target;
+          popup.classList.add('show');
+        }
+      });
+    });
+
+    // Click on color in picker
+    popup.addEventListener('click', (e) => {
+      const colorEl = e.target.closest('.picker-color');
+      if (colorEl && activePickerTarget) {
+        const color = colorEl.dataset.color;
+        document.getElementById(activePickerTarget).value = color;
+        updatePreview();
+        closePicker();
+      }
+    });
+
+    // Click outside to close
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.color-picker-popup') && !e.target.closest('.color-swatch')) {
+        closePicker();
+      }
+    });
+  }
+
+  function closePicker() {
+    document.getElementById('colorPickerPopup').classList.remove('show');
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+    activePickerTarget = null;
+  }
+
   // Format key for display
   function formatKey(key) {
     const names = { ' ': 'Space', 'Escape': 'Esc' };
@@ -291,6 +376,7 @@
   function init() {
     initElements();
     loadSettings();
+    initColorPicker();
 
     // Key capture
     els.changeKeyBtn.addEventListener('click', () => {
