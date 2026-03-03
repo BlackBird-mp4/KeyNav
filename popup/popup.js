@@ -37,6 +37,54 @@
   // DOM elements
   const els = {};
 
+  // Export settings to JSON file
+  function exportSettings() {
+    browser.storage.local.get(DEFAULT_SETTINGS).then(settings => {
+      const data = JSON.stringify(settings, null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'keyclick-settings.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showStatus('Exported!', 'success');
+    }).catch(err => {
+      console.error('Export error:', err);
+      showStatus('Export failed', 'error');
+    });
+  }
+
+  // Import settings from JSON file
+  function importSettings(file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const settings = JSON.parse(e.target.result);
+        
+        // Validate required fields exist
+        const validKeys = Object.keys(DEFAULT_SETTINGS);
+        const imported = {};
+        for (const key of validKeys) {
+          imported[key] = settings[key] !== undefined ? settings[key] : DEFAULT_SETTINGS[key];
+        }
+        
+        browser.storage.local.set(imported).then(() => {
+          loadSettings();
+          showStatus('Imported!', 'success');
+        }).catch(err => {
+          console.error('Import save error:', err);
+          showStatus('Import failed', 'error');
+        });
+      } catch (err) {
+        console.error('Import parse error:', err);
+        showStatus('Invalid file', 'error');
+      }
+    };
+    reader.onerror = () => showStatus('Read failed', 'error');
+    reader.readAsText(file);
+  }
+
   // Initialize DOM references
   function initElements() {
     els.activationKeyDisplay = document.getElementById('activationKeyDisplay');
@@ -231,6 +279,20 @@
     // Save/Reset
     els.saveBtn.addEventListener('click', saveSettings);
     els.resetBtn.addEventListener('click', resetSettings);
+
+    // Import/Export
+    els.exportBtn = document.getElementById('exportBtn');
+    els.importBtn = document.getElementById('importBtn');
+    els.importFile = document.getElementById('importFile');
+    
+    els.exportBtn.addEventListener('click', exportSettings);
+    els.importBtn.addEventListener('click', () => els.importFile.click());
+    els.importFile.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        importSettings(e.target.files[0]);
+        e.target.value = ''; // Reset for re-import
+      }
+    });
 
     // Click outside to cancel key capture
     document.addEventListener('click', (e) => {

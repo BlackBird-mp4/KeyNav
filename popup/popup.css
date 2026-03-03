@@ -331,3 +331,29 @@ body {
 .btn-save:hover {
   background: #fdd835;
 }
+
+/* Import/Export */
+.transfer-section {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px 14px;
+  border-top: 1px dashed #ddd;
+}
+
+.btn-transfer {
+  flex: 1;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-transfer:hover {
+  background: #f5f5f5;
+  border-color: #999;
+  color: #333;
+}
