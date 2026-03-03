@@ -93,6 +93,9 @@
     els.backgroundColor = document.getElementById('backgroundColor');
     els.textColor = document.getElementById('textColor');
     els.borderColor = document.getElementById('borderColor');
+    els.bgSwatch = document.getElementById('bgSwatch');
+    els.textSwatch = document.getElementById('textSwatch');
+    els.borderSwatch = document.getElementById('borderSwatch');
     els.fontSize = document.getElementById('fontSize');
     els.borderRadius = document.getElementById('borderRadius');
     els.uppercase = document.getElementById('uppercase');
@@ -100,6 +103,29 @@
     els.saveBtn = document.getElementById('saveBtn');
     els.resetBtn = document.getElementById('resetBtn');
     els.status = document.getElementById('status');
+  }
+
+  // Validate and normalize hex color
+  function normalizeHex(value) {
+    let hex = value.trim();
+    if (!hex.startsWith('#')) hex = '#' + hex;
+    // Validate hex format
+    if (/^#[0-9A-Fa-f]{6}$/.test(hex)) return hex;
+    if (/^#[0-9A-Fa-f]{3}$/.test(hex)) {
+      // Expand shorthand #RGB to #RRGGBB
+      return '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+    }
+    return null; // Invalid
+  }
+
+  // Update swatches
+  function updateSwatches() {
+    const bg = normalizeHex(els.backgroundColor.value) || '#ffeb3b';
+    const text = normalizeHex(els.textColor.value) || '#000000';
+    const border = normalizeHex(els.borderColor.value) || '#f9a825';
+    els.bgSwatch.style.backgroundColor = bg;
+    els.textSwatch.style.backgroundColor = text;
+    els.borderSwatch.style.backgroundColor = border;
   }
 
   // Format key for display
@@ -125,6 +151,7 @@
       els.uppercase.checked = currentSettings.uppercase;
       
       updatePreview();
+      updateSwatches();
     }).catch(err => {
       console.error('Load error:', err);
       // Use defaults on error
@@ -135,12 +162,22 @@
 
   // Save settings
   function saveSettings() {
+    // Normalize hex values
+    const bgColor = normalizeHex(els.backgroundColor.value);
+    const txtColor = normalizeHex(els.textColor.value);
+    const bdrColor = normalizeHex(els.borderColor.value);
+
+    if (!bgColor || !txtColor || !bdrColor) {
+      showStatus('Invalid hex color', 'error');
+      return;
+    }
+
     const settings = {
       hintChars: els.hintChars.value || DEFAULT_SETTINGS.hintChars,
       activationKey: els.activationKeyDisplay.dataset.key || DEFAULT_SETTINGS.activationKey,
-      backgroundColor: els.backgroundColor.value,
-      textColor: els.textColor.value,
-      borderColor: els.borderColor.value,
+      backgroundColor: bgColor,
+      textColor: txtColor,
+      borderColor: bdrColor,
       fontSize: parseInt(els.fontSize.value, 10),
       fontWeight: 'bold',
       borderRadius: parseInt(els.borderRadius.value, 10),
@@ -194,12 +231,18 @@
     const chars = els.hintChars.value || 'AS';
     const text = chars.substring(0, 2);
     
+    const bg = normalizeHex(els.backgroundColor.value) || '#ffeb3b';
+    const txt = normalizeHex(els.textColor.value) || '#000000';
+    const bdr = normalizeHex(els.borderColor.value) || '#f9a825';
+    
     els.preview.textContent = els.uppercase.checked ? text.toUpperCase() : text.toLowerCase();
-    els.preview.style.backgroundColor = els.backgroundColor.value;
-    els.preview.style.color = els.textColor.value;
-    els.preview.style.border = '1px solid ' + els.borderColor.value;
+    els.preview.style.backgroundColor = bg;
+    els.preview.style.color = txt;
+    els.preview.style.border = '1px solid ' + bdr;
     els.preview.style.fontSize = els.fontSize.value + 'px';
     els.preview.style.borderRadius = els.borderRadius.value + 'px';
+    
+    updateSwatches();
   }
 
   // Apply color preset
@@ -260,7 +303,7 @@
 
     document.addEventListener('keydown', handleKeyCapture, true);
 
-    // Color pickers
+    // Color inputs (hex)
     els.backgroundColor.addEventListener('input', updatePreview);
     els.textColor.addEventListener('input', updatePreview);
     els.borderColor.addEventListener('input', updatePreview);
