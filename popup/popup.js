@@ -17,7 +17,9 @@
     borderRadius: 3,
     opacity: 0.95,
     padding: 2,
-    uppercase: true
+    uppercase: true,
+    showInputIndicator: true,
+    darkMode: false
   };
 
   // Color presets
@@ -97,12 +99,31 @@
     els.textSwatch = document.getElementById('textSwatch');
     els.borderSwatch = document.getElementById('borderSwatch');
     els.fontSize = document.getElementById('fontSize');
+    els.fontSizeVal = document.getElementById('fontSizeVal');
+    els.padding = document.getElementById('padding');
+    els.paddingVal = document.getElementById('paddingVal');
     els.borderRadius = document.getElementById('borderRadius');
+    els.borderRadiusVal = document.getElementById('borderRadiusVal');
+    els.opacity = document.getElementById('opacity');
+    els.opacityVal = document.getElementById('opacityVal');
     els.uppercase = document.getElementById('uppercase');
+    els.showInputIndicator = document.getElementById('showInputIndicator');
     els.preview = document.getElementById('preview');
     els.saveBtn = document.getElementById('saveBtn');
     els.resetBtn = document.getElementById('resetBtn');
     els.status = document.getElementById('status');
+    els.themeToggle = document.getElementById('themeToggle');
+  }
+
+  // Dark mode
+  function applyDarkMode(enabled) {
+    document.body.classList.toggle('dark', enabled);
+  }
+
+  function toggleDarkMode() {
+    const isDark = !document.body.classList.contains('dark');
+    applyDarkMode(isDark);
+    browser.storage.local.set({ darkMode: isDark });
   }
 
   // Validate and normalize hex color
@@ -224,6 +245,9 @@
     browser.storage.local.get(DEFAULT_SETTINGS).then(settings => {
       currentSettings = { ...DEFAULT_SETTINGS, ...settings };
       
+      // Apply dark mode
+      applyDarkMode(currentSettings.darkMode);
+      
       // Populate UI
       els.activationKeyDisplay.textContent = formatKey(currentSettings.activationKey);
       els.activationKeyDisplay.dataset.key = currentSettings.activationKey;
@@ -232,9 +256,13 @@
       els.textColor.value = currentSettings.textColor;
       els.borderColor.value = currentSettings.borderColor;
       els.fontSize.value = currentSettings.fontSize;
+      els.padding.value = currentSettings.padding;
       els.borderRadius.value = currentSettings.borderRadius;
+      els.opacity.value = Math.round(currentSettings.opacity * 100);
       els.uppercase.checked = currentSettings.uppercase;
+      els.showInputIndicator.checked = currentSettings.showInputIndicator;
       
+      updateRangeValues();
       updatePreview();
       updateSwatches();
     }).catch(err => {
@@ -243,6 +271,14 @@
       els.activationKeyDisplay.textContent = '/';
       els.hintChars.value = 'asdfghjkl';
     });
+  }
+
+  // Update range value displays
+  function updateRangeValues() {
+    els.fontSizeVal.textContent = els.fontSize.value;
+    els.paddingVal.textContent = els.padding.value;
+    els.borderRadiusVal.textContent = els.borderRadius.value;
+    els.opacityVal.textContent = els.opacity.value + '%';
   }
 
   // Save settings
@@ -266,9 +302,11 @@
       fontSize: parseInt(els.fontSize.value, 10),
       fontWeight: 'bold',
       borderRadius: parseInt(els.borderRadius.value, 10),
-      opacity: 0.95,
-      padding: 2,
-      uppercase: els.uppercase.checked
+      opacity: parseInt(els.opacity.value, 10) / 100,
+      padding: parseInt(els.padding.value, 10),
+      uppercase: els.uppercase.checked,
+      showInputIndicator: els.showInputIndicator.checked,
+      darkMode: document.body.classList.contains('dark')
     };
 
     // Validate
@@ -319,6 +357,8 @@
     const bg = normalizeHex(els.backgroundColor.value) || '#ffeb3b';
     const txt = normalizeHex(els.textColor.value) || '#000000';
     const bdr = normalizeHex(els.borderColor.value) || '#f9a825';
+    const opacity = parseInt(els.opacity.value, 10) / 100;
+    const padding = parseInt(els.padding.value, 10);
     
     els.preview.textContent = els.uppercase.checked ? text.toUpperCase() : text.toLowerCase();
     els.preview.style.backgroundColor = bg;
@@ -326,6 +366,8 @@
     els.preview.style.border = '1px solid ' + bdr;
     els.preview.style.fontSize = els.fontSize.value + 'px';
     els.preview.style.borderRadius = els.borderRadius.value + 'px';
+    els.preview.style.padding = (padding + 2) + 'px ' + (padding + 6) + 'px';
+    els.preview.style.opacity = opacity;
     
     updateSwatches();
   }
@@ -394,11 +436,22 @@
     els.textColor.addEventListener('input', updatePreview);
     els.borderColor.addEventListener('input', updatePreview);
 
+    // Range sliders with value display
+    const rangeHandler = () => {
+      updateRangeValues();
+      updatePreview();
+    };
+    els.fontSize.addEventListener('input', rangeHandler);
+    els.padding.addEventListener('input', rangeHandler);
+    els.borderRadius.addEventListener('input', rangeHandler);
+    els.opacity.addEventListener('input', rangeHandler);
+
     // Other inputs
     els.hintChars.addEventListener('input', updatePreview);
-    els.fontSize.addEventListener('input', updatePreview);
-    els.borderRadius.addEventListener('input', updatePreview);
     els.uppercase.addEventListener('change', updatePreview);
+
+    // Dark mode toggle
+    els.themeToggle.addEventListener('click', toggleDarkMode);
 
     // Presets
     document.querySelectorAll('.preset').forEach(btn => {

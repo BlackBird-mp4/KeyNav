@@ -18,7 +18,8 @@
     borderRadius: 3,
     opacity: 0.95,
     padding: 2,
-    uppercase: true
+    uppercase: true,
+    showInputIndicator: true
   };
 
   let settings = { ...DEFAULT_SETTINGS };
@@ -242,6 +243,9 @@
   let inputIndicator = null;
 
   function showInputIndicator() {
+    // Skip if disabled in settings
+    if (!settings.showInputIndicator) return;
+    
     if (inputIndicator) {
       inputIndicator.remove();
     }

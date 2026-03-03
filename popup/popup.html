@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="popup">
+  <div class="popup" id="popup">
     <div class="header">
       <div class="logo">
         <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
@@ -14,7 +14,25 @@
         </svg>
         <span class="title">KeyClick</span>
       </div>
-      <div class="status" id="status"></div>
+      <div class="header-right">
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+          <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <div class="status" id="status"></div>
+      </div>
     </div>
 
     <!-- Activation Key -->
@@ -74,20 +92,38 @@
     <!-- Size & Style -->
     <div class="section">
       <label class="label">Style</label>
-      <div class="style-row">
+      <div class="style-grid">
         <div class="style-item">
           <span>Size</span>
-          <input type="range" id="fontSize" min="10" max="18" value="12">
+          <input type="range" id="fontSize" min="6" max="20" value="12">
+          <span class="range-value" id="fontSizeVal">12</span>
         </div>
         <div class="style-item">
-          <span>Round</span>
-          <input type="range" id="borderRadius" min="0" max="10" value="3">
+          <span>Padding</span>
+          <input type="range" id="padding" min="0" max="8" value="2">
+          <span class="range-value" id="paddingVal">2</span>
+        </div>
+        <div class="style-item">
+          <span>Roundness</span>
+          <input type="range" id="borderRadius" min="0" max="12" value="3">
+          <span class="range-value" id="borderRadiusVal">3</span>
+        </div>
+        <div class="style-item">
+          <span>Opacity</span>
+          <input type="range" id="opacity" min="50" max="100" value="95">
+          <span class="range-value" id="opacityVal">95%</span>
         </div>
       </div>
-      <label class="checkbox">
-        <input type="checkbox" id="uppercase" checked>
-        <span>UPPERCASE hints</span>
-      </label>
+      <div class="checkboxes">
+        <label class="checkbox">
+          <input type="checkbox" id="uppercase" checked>
+          <span>UPPERCASE hints</span>
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="showInputIndicator" checked>
+          <span>Show typing indicator</span>
+        </label>
+      </div>
     </div>
 
     <!-- Preview -->
