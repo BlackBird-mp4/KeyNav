@@ -420,7 +420,13 @@
         const displayRemaining = settings.uppercase ? remainingPart.toUpperCase() : remainingPart;
         
         if (currentInput) {
-          hint.hintElement.innerHTML = `<span style="opacity: 0.5">${matchedPart}</span>${displayRemaining}`;
+          // Use DOM methods instead of innerHTML for security
+          hint.hintElement.textContent = '';
+          const matchedSpan = document.createElement('span');
+          matchedSpan.style.opacity = '0.5';
+          matchedSpan.textContent = matchedPart;
+          hint.hintElement.appendChild(matchedSpan);
+          hint.hintElement.appendChild(document.createTextNode(displayRemaining));
         } else {
           hint.hintElement.textContent = settings.uppercase ? hint.label.toUpperCase() : hint.label;
         }

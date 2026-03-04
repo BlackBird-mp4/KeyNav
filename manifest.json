@@ -5,6 +5,13 @@
   "description": "Navigate any website with keyboard letter hints. Fast, customizable, and mouse-free browsing.",
   "author": "KeyNav",
   "homepage_url": "https://github.com/BlackBird-mp4/KeyNav",
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "keynav@blackbird-mp4.github.io",
+      "strict_min_version": "57.0"
+    }
+  },
   
   "icons": {
     "48": "icons/icon-48.svg",
@@ -25,8 +32,7 @@
   },
 
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "scripts": ["background.js"]
   },
 
   "content_scripts": [
