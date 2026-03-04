@@ -11,7 +11,7 @@
       "id": "keynav@blackbird-mp4.github.io",
       "strict_min_version": "142.0",
       "data_collection_permissions": {
-        "required": [],
+        "required": ["none"],
         "optional": []
       }
     }
